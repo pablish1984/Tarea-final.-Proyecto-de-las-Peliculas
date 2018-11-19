@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+
+        <div class="card">
+            <div class="row">
+                <div class="col s5">
+                    <div class="content">
+                        <form #directorForm='ngForm' (ngSubmit)="addDirector(directorForm)">
+
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <h3>Manage Director</h3>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="directorService.selectedDirector._id">
+                                </div>
+                                <div class="input-field col s12">
+                                    <input type="text" class="form-control" placeholder="Enter Director's Name" name="name" #name="ngModel" [(ngModel)]="directorService.selectedDirector.name">
+                                </div>
+                                <div class="input-field col s12">
+                                    <input type="text" class="form-control" placeholder="Enter Director's Nationality" name="nationality" #nationality="ngModel" [(ngModel)]="directorService.selectedDirector.nationality">
+                                </div>
+
+                                <br/>
+                                <div class="card-action">
+                                    <div class="input-field col s12">
+                                        <button class="btn" id="Submit" type="submit">Submit</button>
+
+                                        <a href="" class="btn btn-default right" (click)="resetForm(directorForm)">Reset</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col s7">
+                    <table>
+                        <thead>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Nationality</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let director of directorService.list_directors">
+                                <td>{{ director._id }}</td>
+                                <td>{{ director.name }}</td>
+                                <td>{{ director.nationality }}</td>
+                                <td>
+                                    <a (click)="editDirector(director)">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    <a (click)="deleteDirector(director._id)">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
