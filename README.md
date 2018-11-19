@@ -1,4 +1,4 @@
-# Tarea-final.Catálogo de Películas
+# Tarea-final.Catálogo de Películas (MovieCatalog)
 
 # Introducción
 MovieCatalog es un software basado en API REST, que facilita la gestión de películas. Al gestionar las películas también gestionamos sus directores y sus actores, con los cuales la estrecha vinculación es mostrada a través de la relación entre ellos que se controla en la aplicación.
