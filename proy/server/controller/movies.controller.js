@@ -1,4 +1,5 @@
-const moviesModel = require('../model/movies.model')
+const moviesModel = require('../model/movies.model');
+const autorModel = require('../model/actor.model');
 const moviesController = {};
 
 // Obtener una pelicula por el Id
@@ -22,7 +23,7 @@ moviesController.getMoviesByFields = async(req, res) => {
     }
 
     // Uso del metodo find(), pasandole parametros para filtrar mi buskeda
-    await moviesModel.find({ $or: [params] }).populate('director actors', '-_id -__v').populate({
+    await moviesModel.find({ $or: [params] }).populate('director actors', ' -__v').populate({
         path: 'list_users_calification.user',
         populate: { path: 'user' }
     }).exec((err, movies) => {
@@ -36,6 +37,10 @@ moviesController.getMoviesByFields = async(req, res) => {
 // Crear una pelicula
 moviesController.createMovie = async(req, res) => {
     try {
+        /*var aux = new Array();
+        req.body.actors.forEach(actor => {
+            aux.push(actor._id);
+        });*/
 
         const temp = {
             titulo: req.body.titulo,
@@ -44,33 +49,36 @@ moviesController.createMovie = async(req, res) => {
             annyo: req.body.annyo,
             pais_produccion: req.body.pais_produccion,
             duracion: req.body.duracion,
+            director: req.body.director,
+            actors: req.body.actors,
+            image: req.body.image
         }
 
-        const singleMovie = new moviesModel(req.body);
+        const singleMovie = new moviesModel(temp);
 
         await singleMovie.save();
 
-        res.send('Se ha creado la pelicula correctamente');
+        res.json({ message: 'Pelicula insertada Correctamente' });
     } catch (error) {
-        res.send(error);
+        res.json(error);
     }
 }
 
 // Eliminar una pelicula
 moviesController.deleteMovie = async(req, res) => {
     try {
-        await moviesModel.findOneAndRemove(req.params.id);
+        await moviesModel.findByIdAndRemove(req.params.id);
 
-        res.send('Pelicula eliminada correctamente');
+        res.json({ message: 'Pelicula eliminada correctamente' });
     } catch (error) {
-        res.send(error);
+        res.json(error);
     }
 }
 
 // Actualizar una pelicula
 moviesController.updateMovie = async(req, res) => {
     try {
-        await moviesModel.findOneAndUpdate(req.params.id, req.body);
+        await moviesModel.findByIdAndUpdate(req.params.id, req.body);
 
         res.send('Pelicula Actualizada');
     } catch (error) {
